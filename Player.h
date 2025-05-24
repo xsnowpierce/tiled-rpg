@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "AABB.h"
+#include "MapTile.h"
 
 class Player
 {
@@ -10,6 +11,11 @@ public:
 
 	void update();
 	void render(sf::RenderTarget &target);
+
+	AABB &getAABB() { return collisionBox; }
+
+	void checkCollisions(std::vector<MapTile*> &tiles);
+
 private:
 	sf::Sprite playerSprite;
 	AABB collisionBox;

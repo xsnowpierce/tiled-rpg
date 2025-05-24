@@ -6,10 +6,12 @@
 #include "LevelMapChunkData.h"
 #include "MapTileCollisionData.h"
 #include "MapTile.h"
+#include "MapChunk.h"
 
 class LevelMapLoader
 {
 public:
+
 	LevelMapLoader(sf::Texture& tilemap);
 	~LevelMapLoader();
 
@@ -20,6 +22,11 @@ public:
 	void unloadAllChunks();
 
 	void renderMap(sf::RenderTarget &target);
+
+	MapChunk* getCurrentChunk();
+
+	
+	
 private:
 
 	void loadTileCollisionMap();
@@ -28,13 +35,11 @@ private:
 
 	LevelMap currentMap;
 
-	struct Vector2iLess {
-		bool operator()(const sf::Vector2i& lhs, const sf::Vector2i& rhs) const {
-			return std::tie(lhs.x, lhs.y) < std::tie(rhs.x, rhs.y);
-		}
-	};
+	
+	std::unordered_map<sf::Vector2i, std::unique_ptr<MapChunk>> loadedChunks;
 
-	std::map<sf::Vector2i, std::vector<std::unique_ptr<MapTile>>, Vector2iLess> tiles;
+	
+
 	std::map<int, MapTileCollisionData> tileCollisionData;
 };
 

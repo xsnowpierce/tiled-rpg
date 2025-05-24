@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "MapTileCollisionData.h"
 #include "AABB.h"
@@ -9,6 +10,9 @@ public:
     ~MapTile();
 
     void render(sf::RenderTarget& target);
+    AABB &getAABB() { return collider; }
+    sf::Vector2f getTilePosition() { return sprite.getPosition(); }
+    sf::Vector2i chunkPosition;
 
 private:
     int tileID = 0;

@@ -76,6 +76,9 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
         LevelMapChunkData* chunk = currentMap.layers[i].getChunkFromPosition(chunkPosition);
         if (chunk != nullptr) {
 
+            std::unordered_map<sf::Vector2i, std::vector<std::unique_ptr<MapTile>>> tiles;
+            std::vector<MapTile*> currentCollisionTiles;
+
             for (int y = 0; y < chunk->chunkSize.y; y++) {
                 for (int x = 0; x < chunk->chunkSize.x; x++) {
 
@@ -91,17 +94,28 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
                         sf::Vector2f({ chunk->chunkPosition.x + x * 16.f, chunk->chunkPosition.y + y * 16.f }),
                         tileCollisionData[tileID]
                     );
+
+                    tile->chunkPosition = chunk->chunkPosition;
+
+                    MapTile* rawPtr = tile.get();
                     tiles[{chunk->chunkPosition.x + x, chunk->chunkPosition.y + y}].push_back(std::move(tile));
 
+                    if (!tileCollisionData[tileID].is_null) {
+                        currentCollisionTiles.push_back(rawPtr);
+;                    }
                 }
             }
+
+            auto loadedChunk = std::make_unique<MapChunk>(std::move(tiles), std::move(currentCollisionTiles));
+            loadedChunks[chunk->chunkPosition] = std::move(loadedChunk);
+
         }
     }
 }
 
 void LevelMapLoader::unloadChunk(sf::Vector2i chunkPosition)
 {
-
+    
 }
 
 void LevelMapLoader::unloadAllChunks()
@@ -111,15 +125,22 @@ void LevelMapLoader::unloadAllChunks()
 
 void LevelMapLoader::renderMap(sf::RenderTarget &target)
 {
-    for (const auto& pair : tiles)
-    {
-        for (const auto& tile : pair.second)
-        {
-            tile->render(target);
+    for (auto& [position, chunk] : loadedChunks) {
+        if (chunk) {
+            chunk->render(target);
         }
     }
-
 }
+
+MapChunk* LevelMapLoader::getCurrentChunk()
+{
+    auto it = loadedChunks.find({ 0, 0 });
+    if (it != loadedChunks.end())
+        return it->second.get();
+    else
+        return nullptr;
+}
+
 
 void LevelMapLoader::loadTileCollisionMap()
 {

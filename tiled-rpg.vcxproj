@@ -154,6 +154,7 @@
     <ClCompile Include="LevelMapLayerData.cpp" />
     <ClCompile Include="LevelMapLoader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapChunk.cpp" />
     <ClCompile Include="MapTile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="pugixml.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="LevelMapChunkData.h" />
     <ClInclude Include="LevelMapLayerData.h" />
     <ClInclude Include="LevelMapLoader.h" />
+    <ClInclude Include="MapChunk.h" />
     <ClInclude Include="MapTile.h" />
     <ClInclude Include="MapTileCollisionData.h" />
     <ClInclude Include="Player.h" />

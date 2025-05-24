@@ -2,7 +2,7 @@
 
 MapTile::MapTile(sf::Texture& texture, int tileID, sf::Vector2f position, std::optional<MapTileCollisionData> collisionData) :
     sprite(texture)
-{
+{  
     this->tileID = tileID;
     sprite.setTextureRect(MapTile::getIntRectFromTileID(tileID));
     sprite.setPosition(position);
@@ -27,6 +27,7 @@ void MapTile::createCollider(MapTileCollisionData collisionData)
 {
     sf::Vector2f correctPosition({collisionData.boxPosition.x, collisionData.boxPosition.y});
     collider.createBox(sprite.getPosition() + correctPosition, collisionData.boxSize);
+    collider.setColour(sf::Color::Blue);
     //std::cout << "collision box for tileID " << tileID << " (" << sprite.getPosition().x << "," << sprite.getPosition().y << ")" << " created at " << collider.getRectangleShape()->getPosition().x << ", " << collider.getRectangleShape()->getPosition().y << std::endl;
 }
 
