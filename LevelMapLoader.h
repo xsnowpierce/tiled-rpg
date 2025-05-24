@@ -1,12 +1,10 @@
 #pragma once
 #include "stdafx.h"
 #include "pugixml.hpp"
-#include "LevelMap.h"
-#include "LevelMapLayerData.h"
-#include "LevelMapChunkData.h"
+#include "LevelMapData.h"
 #include "MapTileCollisionData.h"
 #include "MapTile.h"
-#include "MapChunk.h"
+#include "LoadedMap.h"
 
 class LevelMapLoader
 {
@@ -23,7 +21,7 @@ public:
 
 	void renderMap(sf::RenderTarget &target);
 
-	MapChunk* getCurrentChunk();
+	LoadedMapChunk* getChunkFromPosition(sf::Vector2i position);
 
 	
 	
@@ -33,12 +31,10 @@ private:
 
 	sf::Texture& tilemap;
 
-	LevelMap currentMap;
-
+	LevelMapData currentMap;
 	
-	std::unordered_map<sf::Vector2i, std::unique_ptr<MapChunk>> loadedChunks;
+	std::unordered_map<sf::Vector2i, LoadedMapChunk> loadedChunks;
 
-	
 
 	std::map<int, MapTileCollisionData> tileCollisionData;
 };

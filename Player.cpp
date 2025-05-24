@@ -24,7 +24,7 @@ void Player::render(sf::RenderTarget& target)
 	collisionBox.render(target);
 }
 
-void Player::checkCollisions(std::vector<MapTile*>& tiles)
+void Player::checkCollisions(std::vector<MapTile*> tiles)
 {
 	for (MapTile* tile : tiles) {
 		if (tile) {

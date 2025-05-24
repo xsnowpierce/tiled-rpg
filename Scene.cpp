@@ -15,7 +15,7 @@ Scene::~Scene()
 void Scene::update()
 {
 	player.update();
-	player.checkCollisions(mapLoader.getCurrentChunk()->getCollisionTiles());
+	player.checkCollisions(mapLoader.getChunkFromPosition({})->getCollisionTiles());
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Space)) {
 		mapLoader.unloadChunk({ 0, 0 });

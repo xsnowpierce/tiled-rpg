@@ -71,51 +71,57 @@ LevelMapLoader::~LevelMapLoader()
 
 void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
 {
+    LoadedMapChunk chunk(chunkPosition);
+
     for (int i = 0; i < currentMap.layers.size(); i++) {
 
-        LevelMapChunkData* chunk = currentMap.layers[i].getChunkFromPosition(chunkPosition);
-        if (chunk != nullptr) {
+        LoadedMapLayer layer(i);
 
-            std::unordered_map<sf::Vector2i, std::vector<std::unique_ptr<MapTile>>> tiles;
-            std::vector<MapTile*> currentCollisionTiles;
 
-            for (int y = 0; y < chunk->chunkSize.y; y++) {
-                for (int x = 0; x < chunk->chunkSize.x; x++) {
+        LevelMapChunkData* chunkData = currentMap.layers[i].getChunkFromPosition(chunkPosition);
+        
+        if (chunkData == nullptr)
+            continue;
 
-                    if (chunk->chunkData[{x, y}] == 0) {
-                        continue;
-                    }
+        for (int y = 0; y < chunkData->chunkSize.y; y++) {
+            for (int x = 0; x < chunkData->chunkSize.x; x++) {
 
-                    int tileID = chunk->chunkData[{x, y}];
+                if (chunkData->chunkData[{x, y}] == 0)
+                    continue;
 
-                    std::unique_ptr<MapTile> tile = std::make_unique<MapTile>(
-                        tilemap,
-                        tileID,
-                        sf::Vector2f({ chunk->chunkPosition.x + x * 16.f, chunk->chunkPosition.y + y * 16.f }),
-                        tileCollisionData[tileID]
-                    );
+                int tileID = chunkData->chunkData[{x, y}];
 
-                    tile->chunkPosition = chunk->chunkPosition;
+                MapTile tile(
+                    tilemap,
+                    tileID,
+                    sf::Vector2f({
+                        chunkData->chunkPosition.x + x * 16.f,
+                        chunkData->chunkPosition.y + y * 16.f }),
+                    tileCollisionData[tileID]
+                );
 
-                    MapTile* rawPtr = tile.get();
-                    tiles[{chunk->chunkPosition.x + x, chunk->chunkPosition.y + y}].push_back(std::move(tile));
+                tile.chunkPosition = chunkData->chunkPosition;
 
-                    if (!tileCollisionData[tileID].is_null) {
-                        currentCollisionTiles.push_back(rawPtr);
-;                    }
+                sf::Vector2i key = { chunkData->chunkPosition.x + x, chunkData->chunkPosition.y + y };
+                auto inserted = layer.tiles.insert({ key, std::move(tile) });
+                if (!tileCollisionData[tileID].is_null) {
+                    layer.collisionTiles.push_back(&inserted.first->second);
                 }
+
             }
-
-            auto loadedChunk = std::make_unique<MapChunk>(std::move(tiles), std::move(currentCollisionTiles));
-            loadedChunks[chunk->chunkPosition] = std::move(loadedChunk);
-
         }
+
+        chunk.layers.insert({ i, std::move(layer) });
+
     }
+
+    loadedChunks.insert({ chunkPosition, std::move(chunk) });
+    
 }
 
 void LevelMapLoader::unloadChunk(sf::Vector2i chunkPosition)
 {
-    
+
 }
 
 void LevelMapLoader::unloadAllChunks()
@@ -125,20 +131,16 @@ void LevelMapLoader::unloadAllChunks()
 
 void LevelMapLoader::renderMap(sf::RenderTarget &target)
 {
-    for (auto& [position, chunk] : loadedChunks) {
-        if (chunk) {
-            chunk->render(target);
-        }
-    }
+    getChunkFromPosition({0, 0})->render(target);
 }
 
-MapChunk* LevelMapLoader::getCurrentChunk()
+LoadedMapChunk* LevelMapLoader::getChunkFromPosition(sf::Vector2i position)
 {
-    auto it = loadedChunks.find({ 0, 0 });
-    if (it != loadedChunks.end())
-        return it->second.get();
-    else
-        return nullptr;
+    auto it = loadedChunks.find(position);
+    if (it != loadedChunks.end()) {
+        return &(it->second);
+    }
+    return nullptr;
 }
 
 

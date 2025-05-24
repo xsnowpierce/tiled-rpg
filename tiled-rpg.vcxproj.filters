@@ -36,15 +36,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelMap.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelMapChunkData.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelMapLayerData.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="LevelMapLoader.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>
@@ -63,8 +54,11 @@
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapChunk.cpp">
+    <ClCompile Include="LevelMapData.cpp">
       <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadedMap.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,13 +74,7 @@
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMap.h">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelMapChunkData.h">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelMapLayerData.h">
+    <ClInclude Include="LevelMapData.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="LevelMapLoader.h">
@@ -110,7 +98,13 @@
     <ClInclude Include="MapTileCollisionData.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="MapChunk.h">
+    <ClInclude Include="MapChunkLayer.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadedMap.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MapUtils.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "LevelMap.h"
+#include "LevelMapData.h"
 #include "Sprite.h"
 #include "LevelMapLoader.h"
 #include "Player.h"
@@ -9,7 +9,7 @@ class Scene
 {
 private:
 	void renderMap();
-	LevelMap currentMap;
+	LevelMapData currentMap;
 	sf::Texture tilemap;
 	LevelMapLoader mapLoader;
 

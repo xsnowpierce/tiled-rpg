@@ -149,12 +149,10 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="LevelMap.cpp" />
-    <ClCompile Include="LevelMapChunkData.cpp" />
-    <ClCompile Include="LevelMapLayerData.cpp" />
+    <ClCompile Include="LevelMapData.cpp" />
     <ClCompile Include="LevelMapLoader.cpp" />
+    <ClCompile Include="LoadedMap.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapChunk.cpp" />
     <ClCompile Include="MapTile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="pugixml.cpp" />
@@ -164,13 +162,13 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="LevelMap.h" />
-    <ClInclude Include="LevelMapChunkData.h" />
-    <ClInclude Include="LevelMapLayerData.h" />
+    <ClInclude Include="LevelMapData.h" />
     <ClInclude Include="LevelMapLoader.h" />
-    <ClInclude Include="MapChunk.h" />
+    <ClInclude Include="LoadedMap.h" />
+    <ClInclude Include="MapChunkLayer.h" />
     <ClInclude Include="MapTile.h" />
     <ClInclude Include="MapTileCollisionData.h" />
+    <ClInclude Include="MapUtils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
