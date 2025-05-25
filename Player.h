@@ -16,6 +16,8 @@ public:
 
 	void checkCollisions(std::vector<MapTile*> tiles);
 
+	sf::Vector2i getPlayerChunk();
+
 private:
 	sf::Sprite playerSprite;
 	AABB collisionBox;

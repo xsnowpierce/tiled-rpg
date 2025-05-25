@@ -4,7 +4,7 @@
 
 void LevelMapLoader::loadMap(const char* filepath)
 {
-    loadTileCollisionMap();
+    loadTileMaps();
 
     std::cout << "loading map from (" << filepath << ")" << std::endl;
     pugi::xml_document doc;
@@ -83,6 +83,8 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
         if (chunkData == nullptr)
             continue;
 
+        std::cout << "chunk at " << i << ": " << chunkData->chunkPosition.x << ", " << chunkData->chunkPosition.y << std::endl;
+
         for (int y = 0; y < chunkData->chunkSize.y; y++) {
             for (int x = 0; x < chunkData->chunkSize.x; x++) {
 
@@ -95,9 +97,10 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
                     tilemap,
                     tileID,
                     sf::Vector2f({
-                        chunkData->chunkPosition.x + x * 16.f,
-                        chunkData->chunkPosition.y + y * 16.f }),
-                    tileCollisionData[tileID]
+                        chunkData->chunkPosition.x * 16.f + (x * 16.f),
+                        chunkData->chunkPosition.y * 16.f + (y * 16.f) }),
+                    tileCollisionData[tileID],
+                    tileAnimationData[tileID]
                 );
 
                 tile.chunkPosition = chunkData->chunkPosition;
@@ -131,7 +134,9 @@ void LevelMapLoader::unloadAllChunks()
 
 void LevelMapLoader::renderMap(sf::RenderTarget &target)
 {
-    getChunkFromPosition({0, 0})->render(target);
+    for (auto it = loadedChunks.begin(); it != loadedChunks.end(); ++it) {
+        it->second.render(target);
+    }
 }
 
 LoadedMapChunk* LevelMapLoader::getChunkFromPosition(sf::Vector2i position)
@@ -144,7 +149,7 @@ LoadedMapChunk* LevelMapLoader::getChunkFromPosition(sf::Vector2i position)
 }
 
 
-void LevelMapLoader::loadTileCollisionMap()
+void LevelMapLoader::loadTileMaps()
 {
     pugi::xml_document doc;
     if (!doc.load_file("resources/tiled/tileset.xml")) {
@@ -154,22 +159,52 @@ void LevelMapLoader::loadTileCollisionMap()
     pugi::xml_node tileset = doc.child("tileset");
 
     for (pugi::xml_node tileNode : tileset.children("tile")) {
+
         int tileID = tileNode.attribute("id").as_int() + 1;
-        //std::cout << "creating collider for tileID " << tileID << std::endl;
+
         pugi::xml_node objectNode = tileNode.child("objectgroup").child("object");
-        if (!objectNode) {
-            //std::cout << "skipping tileID " << tileID << std::endl;
-            continue;
+        pugi::xml_node animationNode = tileNode.child("animation");
+
+        if (objectNode) {
+            loadCollisionTile(tileID, objectNode);
         }
-            
 
-        MapTileCollisionData collisionData;
-
-        collisionData.boxPosition = { objectNode.attribute("x").as_float(), objectNode.attribute("y").as_float() };
-        collisionData.boxSize = { objectNode.attribute("width").as_float(), objectNode.attribute("height").as_float() };
-        collisionData.is_null = false;
-
-        tileCollisionData[tileID] = collisionData;
+        if (animationNode) {
+            loadAnimatedTile(tileID, animationNode);
+        }
     }
 
+    for (std::pair<int, AnimatedTileData> pair : tileAnimationData) {
+        std::cout << "tile " << pair.first << " has " << pair.second.frames.size() << " animated frames." << std::endl;
+    }
+
+}
+
+void LevelMapLoader::loadCollisionTile(int tileID, pugi::xml_node objectNode)
+{
+    MapTileCollisionData collisionData;
+
+    collisionData.boxPosition = { objectNode.attribute("x").as_float(), objectNode.attribute("y").as_float() };
+    collisionData.boxSize = { objectNode.attribute("width").as_float(), objectNode.attribute("height").as_float() };
+    collisionData.is_null = false;
+
+    tileCollisionData[tileID] = collisionData;
+}
+
+void LevelMapLoader::loadAnimatedTile(int tileID, pugi::xml_node animationNode)
+{
+    AnimatedTileData tileData;
+    int frameID = 0;
+    for (pugi::xml_node frameNode : animationNode.children()) {
+        
+        AnimationTileFrame frame;
+
+        frame.tileID = frameNode.attribute("tileid").as_int();
+        frame.delayTime = frameNode.attribute("duration").as_int() / 1000.f;
+
+        tileData.frames[frameID] = frame;
+        frameID++;
+    }
+    tileAnimationData[tileID] = tileData;
+    std::cout << "gave tile " << tileID << " " << frameID << " tiles." << std::endl;
 }

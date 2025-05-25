@@ -58,7 +58,7 @@
       <Filter>Source Files\Level</Filter>
     </ClCompile>
     <ClCompile Include="LoadedMap.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +105,12 @@
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="MapUtils.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS.h">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedTileData.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
   </ItemGroup>

@@ -42,13 +42,12 @@ void Game::initWindow()
     this->view = sf::View();
     view.setSize(sf::Vector2((float)resolution.x, (float)resolution.y));
     view.setCenter(sf::Vector2(view.getSize().x / 2, view.getSize().y / 2));
-    view.move({ 0.f * 16.f, 0.f * 16.f });
     this->window.setFramerateLimit(60);
 }
 
 void Game::initScene()
 {
-    this->currentScene = new Scene();
+    this->currentScene = new Scene(&view);
 }
 
 Game::Game()
@@ -80,6 +79,8 @@ void Game::update()
             view = this->getLetterboxView(view, { (float) resized->size.x, (float) resized->size.y });
         }
     }
+
+    
 
     
     this->updateScene();

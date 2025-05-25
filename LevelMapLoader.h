@@ -1,10 +1,10 @@
 #pragma once
 #include "stdafx.h"
-#include "pugixml.hpp"
 #include "LevelMapData.h"
 #include "MapTileCollisionData.h"
 #include "MapTile.h"
 #include "LoadedMap.h"
+#include "AnimatedTileData.h"
 
 class LevelMapLoader
 {
@@ -23,11 +23,14 @@ public:
 
 	LoadedMapChunk* getChunkFromPosition(sf::Vector2i position);
 
-	
+	std::unordered_map<sf::Vector2i, LoadedMapChunk>& getLoadedChunks() { return loadedChunks; };
 	
 private:
 
-	void loadTileCollisionMap();
+	void loadTileMaps();
+
+	void loadCollisionTile(int tileID, pugi::xml_node objectNode);
+	void loadAnimatedTile(int tileID, pugi::xml_node animationNode);
 
 	sf::Texture& tilemap;
 
@@ -37,5 +40,6 @@ private:
 
 
 	std::map<int, MapTileCollisionData> tileCollisionData;
+	std::map<int, AnimatedTileData> tileAnimationData;
 };
 

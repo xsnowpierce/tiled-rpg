@@ -10,6 +10,9 @@ void LoadedMapChunk::render(sf::RenderTarget& target)
 
 void LoadedMapChunk::update()
 {
+    for (auto& pair : layers) {
+        pair.second.update();
+    }
 }
 
 std::vector<MapTile*> LoadedMapChunk::getCollisionTiles() {
@@ -38,5 +41,9 @@ void LoadedMapLayer::render(sf::RenderTarget& target)
 
 void LoadedMapLayer::update()
 {
+    for (auto& pair : tiles) {
+        MapTile& tile = pair.second;
 
+        tile.update();
+    }
 }

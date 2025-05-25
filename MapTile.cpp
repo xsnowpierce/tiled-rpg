@@ -1,7 +1,7 @@
 #include "MapTile.h"
 
-MapTile::MapTile(sf::Texture& texture, int tileID, sf::Vector2f position, std::optional<MapTileCollisionData> collisionData) :
-    sprite(texture)
+MapTile::MapTile(sf::Texture& texture, int tileID, sf::Vector2f position, std::optional<MapTileCollisionData> collisionData, std::optional<AnimatedTileData> animationData) 
+    : sprite(texture)
 {  
     this->tileID = tileID;
     sprite.setTextureRect(MapTile::getIntRectFromTileID(tileID));
@@ -9,6 +9,17 @@ MapTile::MapTile(sf::Texture& texture, int tileID, sf::Vector2f position, std::o
 
     if (collisionData.has_value() && collisionData.value().is_null == false) {
         createCollider(collisionData.value());
+    }
+
+    if (animationData.has_value()) {
+        if (animationData.value().frames.size() > 0) {
+            std::cout << "tile " << tileID << " passed animation data of " << animationData.value().frames.size() << " frames." << std::endl;
+            is_animated = true;
+            this->animatedTileSet = animationData.value();
+        }
+        else {
+            //std::cout << "tile " << tileID << " has no animation frames." << std::endl;
+        }
     }
 }
 
@@ -21,6 +32,32 @@ void MapTile::render(sf::RenderTarget& target)
     target.draw(sprite);
     if (collider.is_valid)
         collider.render(target);
+}
+
+void MapTile::update()
+{
+    if (!is_animated) return;
+
+    currentAnimationTimer -= 0.01666666666f;
+    //std::cout << currentAnimationTimer << std::endl;
+    if (currentAnimationTimer <= 0.0f) {
+        progressAnimationFrame();
+    }
+}
+
+void MapTile::progressAnimationFrame()
+{
+    currentAnimationFrame++;
+
+    if (animatedTileSet.frames.size() <= currentAnimationFrame) {
+        std::cout << "reset frame progression" << std::endl;
+        currentAnimationFrame = 0;
+    }
+
+    sprite.setTextureRect(getIntRectFromTileID(animatedTileSet.frames[currentAnimationFrame].tileID + 1));
+    currentAnimationTimer = animatedTileSet.frames[currentAnimationFrame].delayTime;
+
+    std::cout << currentAnimationFrame << ", size is " << animatedTileSet.frames.size() << std::endl;
 }
 
 void MapTile::createCollider(MapTileCollisionData collisionData)

@@ -33,6 +33,15 @@ void Player::checkCollisions(std::vector<MapTile*> tiles)
 	}
 }
 
+sf::Vector2i Player::getPlayerChunk()
+{
+	sf::Vector2i playerChunk({ (int)std::floor(playerSprite.getPosition().x / 240.f) , (int)std::floor(playerSprite.getPosition().y / 160.f) });
+	playerChunk.x *= 15;
+	playerChunk.y *= 10;
+	std::cout << playerChunk.x << ", " << playerChunk.y << std::endl;
+	return playerChunk;
+}
+
 
 void Player::query_inputs()
 {

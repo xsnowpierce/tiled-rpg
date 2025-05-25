@@ -1,4 +1,5 @@
 #pragma once
+#include "MapUtils.h"
 #include "stdafx.h"
 #include "LevelMapData.h"
 #include "Sprite.h"
@@ -15,8 +16,10 @@ private:
 
 	sf::Texture playerTexture;
 	Player player;
+	sf::View* view;
+
 public:
-	Scene();
+	Scene(sf::View* view);
 	~Scene();
 	void update();
 	void render(sf::RenderTarget& target);
