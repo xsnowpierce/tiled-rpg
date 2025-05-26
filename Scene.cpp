@@ -6,8 +6,8 @@ Scene::Scene(sf::View* view) : tilemap("resources/images/Overworld.png"), mapLoa
 	this->view = view;
 	mapLoader.loadMap("resources/tiled/map.xml");
 	mapLoader.loadChunk(player.getPlayerChunk());
-	//mapLoader.loadChunk({0, -10});
-	//mapLoader.loadChunk({15, 0});
+	mapLoader.loadChunk({0, -10});
+	mapLoader.loadChunk({15, 0});
 }
 
 Scene::~Scene()

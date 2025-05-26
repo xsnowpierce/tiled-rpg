@@ -24,12 +24,10 @@ void Player::render(sf::RenderTarget& target)
 	collisionBox.render(target);
 }
 
-void Player::checkCollisions(std::vector<MapTile*> tiles)
+void Player::checkCollisions(std::vector<AABB> tiles)
 {
-	for (MapTile* tile : tiles) {
-		if (tile) {
-			tile->getAABB().checkCollision(collisionBox, 1.0f);
-		}
+	for (AABB tile : tiles) {
+		tile.checkCollision(collisionBox, 1.0f);
 	}
 }
 

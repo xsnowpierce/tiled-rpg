@@ -39,7 +39,7 @@ private:
 	std::unordered_map<sf::Vector2i, LoadedMapChunk> loadedChunks;
 
 
-	std::map<int, MapTileCollisionData> tileCollisionData;
-	std::map<int, AnimatedTileData> tileAnimationData;
+	std::unordered_map<int, MapTileCollisionData> tileCollisionData;
+	std::unordered_map<int, AnimatedTileData> tileAnimationData;
 };
 

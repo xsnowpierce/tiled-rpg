@@ -74,52 +74,16 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
     LoadedMapChunk chunk(chunkPosition);
 
     for (int i = 0; i < currentMap.layers.size(); i++) {
+        LevelMapChunkData* chunkData = currentMap.layers[i].getChunkFromPosition(chunkPosition);
+        if (!chunkData) continue;
 
         LoadedMapLayer layer(i);
-
-
-        LevelMapChunkData* chunkData = currentMap.layers[i].getChunkFromPosition(chunkPosition);
-        
-        if (chunkData == nullptr)
-            continue;
-
-        std::cout << "chunk at " << i << ": " << chunkData->chunkPosition.x << ", " << chunkData->chunkPosition.y << std::endl;
-
-        for (int y = 0; y < chunkData->chunkSize.y; y++) {
-            for (int x = 0; x < chunkData->chunkSize.x; x++) {
-
-                if (chunkData->chunkData[{x, y}] == 0)
-                    continue;
-
-                int tileID = chunkData->chunkData[{x, y}];
-
-                MapTile tile(
-                    tilemap,
-                    tileID,
-                    sf::Vector2f({
-                        chunkData->chunkPosition.x * 16.f + (x * 16.f),
-                        chunkData->chunkPosition.y * 16.f + (y * 16.f) }),
-                    tileCollisionData[tileID],
-                    tileAnimationData[tileID]
-                );
-
-                tile.chunkPosition = chunkData->chunkPosition;
-
-                sf::Vector2i key = { chunkData->chunkPosition.x + x, chunkData->chunkPosition.y + y };
-                auto inserted = layer.tiles.insert({ key, std::move(tile) });
-                if (!tileCollisionData[tileID].is_null) {
-                    layer.collisionTiles.push_back(&inserted.first->second);
-                }
-
-            }
-        }
+        layer.buildVertexArray(*chunkData, tilemap, { 16, 16 }, tileCollisionData, tileAnimationData);
 
         chunk.layers.insert({ i, std::move(layer) });
-
     }
 
     loadedChunks.insert({ chunkPosition, std::move(chunk) });
-    
 }
 
 void LevelMapLoader::unloadChunk(sf::Vector2i chunkPosition)
@@ -132,10 +96,10 @@ void LevelMapLoader::unloadAllChunks()
 
 }
 
-void LevelMapLoader::renderMap(sf::RenderTarget &target)
+void LevelMapLoader::renderMap(sf::RenderTarget& target)
 {
-    for (auto it = loadedChunks.begin(); it != loadedChunks.end(); ++it) {
-        it->second.render(target);
+    for (auto& [pos, chunk] : loadedChunks) {
+        chunk.render(target, tilemap);
     }
 }
 

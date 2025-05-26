@@ -14,7 +14,7 @@ public:
 
 	AABB &getAABB() { return collisionBox; }
 
-	void checkCollisions(std::vector<MapTile*> tiles);
+	void checkCollisions(std::vector<AABB> tiles);
 
 	sf::Vector2i getPlayerChunk();
 
