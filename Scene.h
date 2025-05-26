@@ -9,7 +9,6 @@
 class Scene
 {
 private:
-	void renderMap();
 	LevelMapData currentMap;
 	sf::Texture tilemap;
 	LevelMapLoader mapLoader;

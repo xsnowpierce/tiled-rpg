@@ -13,7 +13,7 @@ MapTile::MapTile(sf::Texture& texture, int tileID, sf::Vector2f position, std::o
 
     if (animationData.has_value()) {
         if (animationData.value().frames.size() > 0) {
-            std::cout << "tile " << tileID << " passed animation data of " << animationData.value().frames.size() << " frames." << std::endl;
+            //std::cout << "tile " << tileID << " passed animation data of " << animationData.value().frames.size() << " frames." << std::endl;
             is_animated = true;
             this->animatedTileSet = animationData.value();
         }
@@ -50,14 +50,14 @@ void MapTile::progressAnimationFrame()
     currentAnimationFrame++;
 
     if (animatedTileSet.frames.size() <= currentAnimationFrame) {
-        std::cout << "reset frame progression" << std::endl;
+        //::cout << "reset frame progression" << std::endl;
         currentAnimationFrame = 0;
     }
 
     sprite.setTextureRect(getIntRectFromTileID(animatedTileSet.frames[currentAnimationFrame].tileID + 1));
     currentAnimationTimer = animatedTileSet.frames[currentAnimationFrame].delayTime;
 
-    std::cout << currentAnimationFrame << ", size is " << animatedTileSet.frames.size() << std::endl;
+    //std::cout << currentAnimationFrame << ", size is " << animatedTileSet.frames.size() << std::endl;
 }
 
 void MapTile::createCollider(MapTileCollisionData collisionData)
