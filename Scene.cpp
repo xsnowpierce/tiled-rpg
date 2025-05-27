@@ -35,7 +35,7 @@ void Scene::update(float deltaTime)
 	if (screenIsMoving) {
 		// screen is moving, update movement
 		updateNewScreenMovement(deltaTime);
-		createScreenBoundaryColliders();
+		moveScreenBoundaryColliders();
 	}
 }
 
@@ -43,6 +43,13 @@ void Scene::render(sf::RenderTarget& target)
 {
 	mapLoader.renderMap(target);
 	player.render(target);
+
+	/*
+	leftScreenAABB.render(target);
+	rightScreenAABB.render(target);
+	topScreenAABB.render(target);
+	bottomScreenAABB.render(target);
+	*/
 }
 
 void Scene::pollEvent(sf::Event event)
@@ -96,6 +103,16 @@ void Scene::createScreenBoundaryColliders()
 	rightScreenAABB.createBox({offset.x + view->getSize().x, offset.y}, {16, view->getSize().y});
 	topScreenAABB.createBox({offset.x, offset.y - 16}, {view->getSize().x, 16});
 	bottomScreenAABB.createBox({offset.x, offset.y + view->getSize().y}, {view->getSize().x, 16});
+}
+
+void Scene::moveScreenBoundaryColliders()
+{
+	sf::Vector2f offset(view->getCenter() - (view->getSize() / 2.f));
+
+	leftScreenAABB.setPosition({ offset.x - 16, offset.y });
+	rightScreenAABB.setPosition({ offset.x + view->getSize().x, offset.y });
+	topScreenAABB.setPosition({ offset.x, offset.y - 16 });
+	bottomScreenAABB.setPosition({ offset.x, offset.y + view->getSize().y });
 }
 
 void Scene::checkScreenBoundaryColliders()

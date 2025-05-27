@@ -94,3 +94,8 @@ bool AABB::checkCollision(AABB& other, float weight)
 
 	return false;
 }
+
+void AABB::setPosition(sf::Vector2f position)
+{
+	this->rect.setPosition(position + getHalfSize());
+}

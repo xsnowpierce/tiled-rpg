@@ -24,6 +24,7 @@ private:
 	void updateNewScreenMovement(float deltaTime);
 
 	void createScreenBoundaryColliders();
+	void moveScreenBoundaryColliders();
 	void checkScreenBoundaryColliders();
 
 	float lerp(float a, float b, float t);

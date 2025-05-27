@@ -23,6 +23,7 @@ public:
 
 	bool checkCollision(AABB& other, float weight);
 	sf::Vector2f getPosition() { return rect.getPosition(); }
+	void setPosition(sf::Vector2f position);
 	sf::Vector2f getHalfSize() { return rect.getSize() / 2.0f; }
 
 private:
