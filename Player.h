@@ -32,6 +32,7 @@ public:
 	AABB &getAABB() { return collisionBox; }
 
 	void checkCollisions(std::vector<AABB> tiles);
+	bool checkCollision(AABB tile);
 
 	sf::Vector2i getPlayerChunk();
 	sf::Vector2f getPlayerPosition() { return playerSprite.getPosition(); };
@@ -45,6 +46,10 @@ private:
 	float playerMoveSpeed = 70.f;
 
 	void query_inputs(float deltaTime);
+	
+
+
+	// ANIMATION
 	void animateSprite(float deltaTime);
 	void updateAnimationState();
 	void addAnimation(PlayerAnimationState state, std::vector<sf::IntRect> frames, float speed);

@@ -107,6 +107,9 @@
     <ClInclude Include="AnimatedTileData.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\images\Overworld.png">

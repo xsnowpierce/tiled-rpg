@@ -21,13 +21,17 @@ private:
 	float screenMoveProgress = 0.f;
 	bool screenIsMoving = false;
 
-	void viewInputs();
 	void updateNewScreenMovement(float deltaTime);
+
+	void createScreenBoundaryColliders();
+	void checkScreenBoundaryColliders();
 
 	float lerp(float a, float b, float t);
 
 	sf::Vector2i currentMainChunk;
 	sf::Vector2i currentTargetChunk;
+
+	AABB leftScreenAABB, rightScreenAABB, topScreenAABB, bottomScreenAABB;
 
 public:
 	Scene(sf::View* view);
@@ -39,5 +43,7 @@ public:
 	void pullNewScreen(sf::Vector2f direction);
 	
 	bool isLoadingNewScreen() { return screenIsMoving; }
+
+	sf::View* getView() { return view; }
 };
 

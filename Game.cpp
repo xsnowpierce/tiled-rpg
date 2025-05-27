@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include "GameSettings.h"
 
 sf::View Game::getLetterboxView(sf::View view, sf::Vector2f windowSize)
 {
@@ -38,12 +39,13 @@ sf::View Game::getLetterboxView(sf::View view, sf::Vector2f windowSize)
 
 void Game::initWindow()
 {
-    this->window.create(sf::VideoMode(sf::Vector2u(resolution.x, resolution.y)), "Game", sf::Style::Resize + sf::Style::Close);
+    this->window.create(sf::VideoMode(sf::Vector2u(GameSettings::screenWidth, GameSettings::screenHeight)), GameSettings::screenName, sf::Style::Resize + sf::Style::Close);
     this->view = sf::View();
-    view.setSize(sf::Vector2((float)resolution.x, (float)resolution.y));
+    view.setSize(sf::Vector2((float)GameSettings::screenWidth, (float)GameSettings::screenHeight));
     view.setCenter(sf::Vector2(view.getSize().x / 2, view.getSize().y / 2));
-    window.setVerticalSyncEnabled(true);
-    //this->window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(GameSettings::ENABLE_VSYNC);
+    if(GameSettings::MAX_FPS != -1)
+        this->window.setFramerateLimit(GameSettings::MAX_FPS);
 }
 
 void Game::initScene()
@@ -80,9 +82,6 @@ void Game::update(float deltaTime)
             view = this->getLetterboxView(view, { (float) resized->size.x, (float) resized->size.y });
         }
     }
-
-    
-
     
     this->updateScene(deltaTime);
 }

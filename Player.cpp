@@ -81,12 +81,16 @@ void Player::checkCollisions(std::vector<AABB> tiles)
 	}
 }
 
+bool Player::checkCollision(AABB tile)
+{
+	return tile.checkCollision(collisionBox, 1.0f);
+}
+
 sf::Vector2i Player::getPlayerChunk()
 {
-	sf::Vector2i playerChunk({ (int)std::floor(playerSprite.getPosition().x / 240.f) , (int)std::floor(playerSprite.getPosition().y / 160.f) });
+	sf::Vector2i playerChunk({ (int)std::floor(playerSprite.getPosition().x / GameSettings::screenWidth) , (int)std::floor(playerSprite.getPosition().y / GameSettings::screenHeight) });
 	playerChunk.x *= 15;
 	playerChunk.y *= 10;
-	//std::cout << playerChunk.x << ", " << playerChunk.y << std::endl;
 	return playerChunk;
 }
 

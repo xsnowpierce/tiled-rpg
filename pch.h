@@ -19,3 +19,5 @@
 #include <SFML/Graphics/Font.hpp>
 // PUGIXML
 #include "pugixml.hpp"
+// GAMESETTINGS
+#include "GameSettings.h"

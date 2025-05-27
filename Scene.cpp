@@ -9,6 +9,7 @@ float Scene::lerp(float a, float b, float t)
 Scene::Scene(sf::View* view) : tilemap("resources/images/Overworld.png"), mapLoader(tilemap), playerTexture("resources/images/character.png"), player(playerTexture, this)
 {
 	this->view = view;
+	createScreenBoundaryColliders();
 	mapLoader.loadMap("resources/tiled/map.xml");
 	mapLoader.loadChunk(player.getPlayerChunk());
 	currentMainChunk = player.getPlayerChunk();
@@ -29,12 +30,12 @@ void Scene::update(float deltaTime)
 		player.checkCollisions(chunk.getCollisionTiles());
 	}
 
-	if (!screenIsMoving) {
-		viewInputs();
-	}
-	else{
+	checkScreenBoundaryColliders();
+
+	if (screenIsMoving) {
 		// screen is moving, update movement
 		updateNewScreenMovement(deltaTime);
+		createScreenBoundaryColliders();
 	}
 }
 
@@ -47,28 +48,6 @@ void Scene::render(sf::RenderTarget& target)
 void Scene::pollEvent(sf::Event event)
 {
 
-}
-
-void Scene::viewInputs()
-{
-	sf::Vector2f moveDelta = {};
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)) {
-		moveDelta.y -= 1;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)) {
-		moveDelta.x -= 1;
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) {
-		moveDelta.x += 1;
-
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S)) {
-		moveDelta.y += 1;
-	}
-
-	if (moveDelta.length() > 0.f && !screenIsMoving)
-		this->pullNewScreen({ moveDelta });
 }
 
 void Scene::pullNewScreen(sf::Vector2f direction)
@@ -86,7 +65,7 @@ void Scene::pullNewScreen(sf::Vector2f direction)
 
 void Scene::updateNewScreenMovement(float deltaTime)
 {
-	const float speed = 2.0f;
+	const float speed = 1.f;
 
 	if (screenIsMoving) {
 		screenMoveProgress += deltaTime * speed;
@@ -106,5 +85,37 @@ void Scene::updateNewScreenMovement(float deltaTime)
 			currentMainChunk = currentTargetChunk;
 			currentTargetChunk = sf::Vector2i({});
 		}
+	}
+}
+
+void Scene::createScreenBoundaryColliders()
+{
+	sf::Vector2f offset(view->getCenter() - (view->getSize() / 2.f));
+
+	leftScreenAABB.createBox({offset.x - 16, offset.y}, { 16, view->getSize().y });
+	rightScreenAABB.createBox({offset.x + view->getSize().x, offset.y}, {16, view->getSize().y});
+	topScreenAABB.createBox({offset.x, offset.y - 16}, {view->getSize().x, 16});
+	bottomScreenAABB.createBox({offset.x, offset.y + view->getSize().y}, {view->getSize().x, 16});
+}
+
+void Scene::checkScreenBoundaryColliders()
+{
+	sf::Vector2f newScreen;
+	if (player.checkCollision(rightScreenAABB) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right)) {
+		newScreen.x += 1;
+	}
+	else if (player.checkCollision(leftScreenAABB) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left)) {
+		newScreen.x -= 1;
+	}
+
+	if (player.checkCollision(topScreenAABB) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up)) {
+		newScreen.y -= 1;
+	}
+	else if (player.checkCollision(bottomScreenAABB) && sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down)) {
+		newScreen.y += 1;
+	}
+
+	if (newScreen.length() != 0 && !screenIsMoving) {
+		pullNewScreen(newScreen);
 	}
 }

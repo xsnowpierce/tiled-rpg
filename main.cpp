@@ -11,9 +11,12 @@ int main()
 
     while (game.getWindow().isOpen()) {
         fps.update();
-        game.update(deltaClock.restart().asSeconds());
+        GameSettings::DELTA_TIME = deltaClock.restart().asSeconds();
+        game.update(GameSettings::DELTA_TIME);
         game.render();
-        //std::cout << fps.getFPS() << std::endl;
+        
+        if(GameSettings::PRINT_FPS_TO_CONSOLE)
+            std::cout << fps.getFPS() << std::endl;
     }
     
     return 0;
