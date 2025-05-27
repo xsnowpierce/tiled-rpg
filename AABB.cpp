@@ -37,7 +37,7 @@ void AABB::setColour(sf::Color colour)
 
 void AABB::render(sf::RenderTarget& target)
 {
-	//target.draw(rect);
+	target.draw(rect);
 }
 
 sf::RectangleShape* AABB::getRectangleShape()

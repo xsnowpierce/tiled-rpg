@@ -9,10 +9,10 @@ void LoadedMapChunk::render(sf::RenderTarget& target, const sf::Texture& tilemap
     }
 }
 
-void LoadedMapChunk::update()
+void LoadedMapChunk::update(float deltaTime)
 {
     for (auto& [id, layer] : layers) {
-        layer.update();
+        layer.update(deltaTime);
     }
 }
 
@@ -43,7 +43,7 @@ void LoadedMapLayer::render(sf::RenderTarget& target, const sf::Texture& tilemap
     target.draw(vertices, states);
 }
 
-void LoadedMapLayer::update() {
+void LoadedMapLayer::update(float deltaTime) {
     if (tilesetWidth == 0) return;
 
     for (auto& animTile : animatedTiles) {
@@ -59,7 +59,7 @@ void LoadedMapLayer::update() {
         float currentFrameDuration = animData.frames.at(animTile.currentFrame).delayTime;
         if (currentFrameDuration <= 0.0f) continue;
 
-        animTile.elapsedTime += 0.016666666666f;
+        animTile.elapsedTime += deltaTime;
         
 
         if (animTile.elapsedTime >= currentFrameDuration) {
@@ -155,7 +155,7 @@ void LoadedMapLayer::buildVertexArray(
             if (tileAnimationData.find(tileID) != tileAnimationData.end()) {
                 AnimatedTileInstance animInstance;
                 animInstance.baseTileID = tileID;
-                animInstance.vertexIndex = v; // store the actual vertex offset
+                animInstance.vertexIndex = v;
                 animInstance.currentFrame = 0;
                 animInstance.elapsedTime = 0.f;
                 animatedTiles.push_back(animInstance);

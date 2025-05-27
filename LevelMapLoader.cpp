@@ -88,12 +88,12 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
 
 void LevelMapLoader::unloadChunk(sf::Vector2i chunkPosition)
 {
-
+    loadedChunks.erase(chunkPosition);
 }
 
 void LevelMapLoader::unloadAllChunks()
 {
-
+    loadedChunks.clear();
 }
 
 void LevelMapLoader::renderMap(sf::RenderTarget& target)
@@ -139,7 +139,7 @@ void LevelMapLoader::loadTileMaps()
     }
 
     for (std::pair<int, AnimatedTileData> pair : tileAnimationData) {
-        std::cout << "tile " << pair.first << " has " << pair.second.frames.size() << " animated frames." << std::endl;
+        //std::cout << "tile " << pair.first << " has " << pair.second.frames.size() << " animated frames." << std::endl;
     }
 
 }
@@ -170,5 +170,5 @@ void LevelMapLoader::loadAnimatedTile(int tileID, pugi::xml_node animationNode)
         frameID++;
     }
     tileAnimationData[tileID] = tileData;
-    std::cout << "gave tile " << tileID << " " << frameID << " tiles." << std::endl;
+    //std::cout << "gave tile " << tileID << " " << frameID << " tiles." << std::endl;
 }

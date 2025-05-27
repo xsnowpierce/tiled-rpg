@@ -1,9 +1,9 @@
 #pragma once
-#include "MapUtils.h"
-#include <SFML/Graphics.hpp>
-#include <map>
-#include "MapTile.h"
+#include "stdafx.h"
 #include "LevelMapData.h"
+#include "AnimatedTileData.h"
+#include "MapTileCollisionData.h"
+#include "AABB.h"
 
 class LoadedMapLayer {
 public:
@@ -11,7 +11,7 @@ public:
     LoadedMapLayer(int layerID);
 
     void render(sf::RenderTarget& target, const sf::Texture& tilemap);
-    void update();
+    void update(float deltaTime);
 
     int getLayerID() const;
 
@@ -45,7 +45,7 @@ public:
     LoadedMapChunk(sf::Vector2i chunkPosition);
 
     void render(sf::RenderTarget& target, const sf::Texture& tilemap);
-    void update();
+    void update(float deltaTime);
 
     sf::Vector2i getChunkPosition() const;
     std::vector<AABB>  getCollisionTiles() const;

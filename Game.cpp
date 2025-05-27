@@ -61,12 +61,12 @@ Game::~Game()
     delete this->currentScene;
 }
 
-void Game::updateScene()
+void Game::updateScene(float deltaTime)
 {
-    this->currentScene->update();
+    this->currentScene->update(deltaTime);
 }
 
-void Game::update()
+void Game::update(float deltaTime)
 {
     while (const std::optional event = window.pollEvent())
     {
@@ -83,7 +83,7 @@ void Game::update()
     
 
     
-    this->updateScene();
+    this->updateScene(deltaTime);
 }
 
 void Game::renderScene()

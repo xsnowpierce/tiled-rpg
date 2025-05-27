@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include "LevelMapData.h"
 #include "MapTileCollisionData.h"
-#include "MapTile.h"
 #include "LoadedMap.h"
 #include "AnimatedTileData.h"
 

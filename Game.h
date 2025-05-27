@@ -20,8 +20,8 @@ public:
 	Game();
 	virtual ~Game();
 
-	void updateScene();
-	void update();
+	void updateScene(float deltaTime);
+	void update(float deltaTime);
 	void renderScene();
 	void render();
 

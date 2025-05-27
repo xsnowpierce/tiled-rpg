@@ -48,9 +48,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapTile.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
     <ClInclude Include="pugixml.hpp">
       <Filter>PugiXML</Filter>
     </ClInclude>
-    <ClInclude Include="MapTile.h">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -96,9 +90,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MapTileCollisionData.h">
-      <Filter>Header Files\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="MapChunkLayer.h">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
     <ClInclude Include="LoadedMap.h">
@@ -115,10 +106,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\images\tiles.png">
+    <Image Include="resources\images\Overworld.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\images\Overworld.png">
+    <Image Include="resources\images\character.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

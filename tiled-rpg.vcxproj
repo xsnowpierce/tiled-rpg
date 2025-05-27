@@ -153,7 +153,6 @@
     <ClCompile Include="LevelMapLoader.cpp" />
     <ClCompile Include="LoadedMap.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapTile.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -167,8 +166,6 @@
     <ClInclude Include="LevelMapData.h" />
     <ClInclude Include="LevelMapLoader.h" />
     <ClInclude Include="LoadedMap.h" />
-    <ClInclude Include="MapChunkLayer.h" />
-    <ClInclude Include="MapTile.h" />
     <ClInclude Include="MapTileCollisionData.h" />
     <ClInclude Include="MapUtils.h" />
     <ClInclude Include="Player.h" />
@@ -179,8 +176,8 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\images\character.png" />
     <Image Include="resources\images\Overworld.png" />
-    <Image Include="resources\images\tiles.png" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\tiled\map.xml" />
