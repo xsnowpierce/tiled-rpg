@@ -1,8 +1,11 @@
+#include "pch.h"
 #include "Player.h"
+#include "Scene.h"
 
-Player::Player(sf::Texture &texture) :
-	playerSprite(texture), collisionBox({}, {15, 8})
+Player::Player(sf::Texture &texture, Scene* scene) :
+	playerSprite(texture), collisionBox({}, {15, 8}), sceneRef(scene)
 {
+
 	playerSprite.setTextureRect(sf::IntRect({ 1, 6 }, { 15, 22 }));
 	playerSprite.setOrigin({0, 11});
 	playerSprite.setPosition({});
@@ -59,7 +62,8 @@ Player::~Player()
 
 void Player::update(float deltaTime)
 {
-	this->query_inputs(deltaTime);
+	if(!sceneRef->isLoadingNewScreen())
+		this->query_inputs(deltaTime);
 	this->animateSprite(deltaTime);
 }
 

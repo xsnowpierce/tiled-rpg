@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "LoadedMap.h"
 
 LoadedMapChunk::LoadedMapChunk(sf::Vector2i chunkPosition) : chunkPosition(chunkPosition) {}
@@ -116,8 +117,8 @@ void LoadedMapLayer::buildVertexArray(
             int tu = (tileID - 1) % tilesetWidth;
             int tv = (tileID - 1) / tilesetWidth;
 
-            float worldX = (chunkData.chunkPosition.x + x) * tileSize.x;
-            float worldY = (chunkData.chunkPosition.y + y) * tileSize.y;
+            float worldX = float(chunkData.chunkPosition.x + x) * tileSize.x;
+            float worldY = float(chunkData.chunkPosition.y + y) * tileSize.y;
 
             sf::Vertex* quad = &vertices[v];
 

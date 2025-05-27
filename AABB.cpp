@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "AABB.h"
 
 AABB::AABB()
@@ -27,6 +28,11 @@ void AABB::createBox(sf::Vector2f boxPosition, sf::Vector2f boxSize)
 void AABB::moveBox(sf::Vector2f position)
 {
 	rect.move(position);
+}
+
+void AABB::update()
+{
+
 }
 
 void AABB::setColour(sf::Color colour)

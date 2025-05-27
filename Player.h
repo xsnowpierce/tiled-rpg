@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include "pch.h"
 #include "AABB.h"
 
 enum class PlayerAnimationState {
@@ -18,10 +18,12 @@ public:
 	float animationSpeed;
 };
 
+class Scene;
+
 class Player
 {
 public:
-	Player(sf::Texture &texture);
+	Player(sf::Texture &texture, Scene* scene);
 	~Player();
 
 	void update(float deltaTime);
@@ -37,6 +39,7 @@ public:
 private:
 	sf::Sprite playerSprite;
 	AABB collisionBox;
+	Scene* sceneRef;
 
 	sf::Vector2f playerMoveDelta;
 	float playerMoveSpeed = 70.f;

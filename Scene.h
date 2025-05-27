@@ -1,6 +1,5 @@
 #pragma once
-#include "MapUtils.h"
-#include "stdafx.h"
+#include "pch.h"
 #include "LevelMapData.h"
 #include "Sprite.h"
 #include "LevelMapLoader.h"
@@ -39,6 +38,6 @@ public:
 
 	void pullNewScreen(sf::Vector2f direction);
 	
-
+	bool isLoadingNewScreen() { return screenIsMoving; }
 };
 

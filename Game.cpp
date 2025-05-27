@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "Game.h"
 
 sf::View Game::getLetterboxView(sf::View view, sf::Vector2f windowSize)
@@ -42,7 +42,8 @@ void Game::initWindow()
     this->view = sf::View();
     view.setSize(sf::Vector2((float)resolution.x, (float)resolution.y));
     view.setCenter(sf::Vector2(view.getSize().x / 2, view.getSize().y / 2));
-    this->window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
+    //this->window.setFramerateLimit(60);
 }
 
 void Game::initScene()

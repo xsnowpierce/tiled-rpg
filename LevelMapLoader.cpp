@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "LevelMapLoader.h"
-#include <sstream>
-#include <istream>
+
 
 void LevelMapLoader::loadMap(const char* filepath)
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include <SFML/System/Vector2.hpp>
-#include <functional>
+#include "pch.h"
+
 
 namespace std {
     template <>

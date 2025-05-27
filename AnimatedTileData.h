@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <map>
+#include "pch.h"
 
 class AnimationTileFrame {
 public:
@@ -21,8 +20,8 @@ public:
 
 	sf::Vector2i gridPosition;
 	sf::Vector2i chunkPosition;
-	int baseTileID;
-	long vertexIndex;
+	int baseTileID = -1;
+	long vertexIndex = -1;
 	float elapsedTime = 0.0f;
 	int currentFrame = 0;
 };

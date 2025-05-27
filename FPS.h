@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/System.hpp>
+#include "pch.h"
 class FPS
 {
 public:

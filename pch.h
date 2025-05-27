@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <random> 
+#include <functional>
+#include <sstream>
+#include <istream>
 //SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
