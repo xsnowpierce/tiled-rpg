@@ -35,6 +35,10 @@ public:
 
     sf::Vector2i chunkSize;
 
+    float tickTimer = 0.f;
+    float tickInterval = 1.f / GameSettings::TICKS_PER_SECOND;
+
+
 private:
     int id = 0;
     sf::VertexArray vertices;

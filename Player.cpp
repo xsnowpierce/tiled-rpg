@@ -89,8 +89,8 @@ bool Player::checkCollision(AABB tile)
 sf::Vector2i Player::getPlayerChunk()
 {
 	sf::Vector2i playerChunk({ (int)std::floor(playerSprite.getPosition().x / GameSettings::screenWidth) , (int)std::floor(playerSprite.getPosition().y / GameSettings::screenHeight) });
-	playerChunk.x *= 15;
-	playerChunk.y *= 10;
+	playerChunk.x *= GameSettings::SCREEN_TILE_SIZE_W;
+	playerChunk.y *= GameSettings::SCREEN_TILE_SIZE_H;
 	return playerChunk;
 }
 

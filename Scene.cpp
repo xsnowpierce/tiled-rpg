@@ -6,7 +6,12 @@ float Scene::lerp(float a, float b, float t)
 	return a + (b - a) * t;
 }
 
-Scene::Scene(sf::View* view) : tilemap("resources/images/Overworld.png"), mapLoader(tilemap), playerTexture("resources/images/character.png"), player(playerTexture, this)
+Scene::Scene(sf::View* view) 
+	: tilemap("resources/images/Overworld.png"), 
+	mapLoader(tilemap), 
+	playerTexture("resources/images/character.png"), 
+	player(playerTexture, this),
+	playerHUD(this)
 {
 	this->view = view;
 	createScreenBoundaryColliders();
@@ -23,6 +28,8 @@ Scene::~Scene()
 void Scene::update(float deltaTime)
 {
 	player.update(deltaTime);
+
+	playerHUD.update(deltaTime);
 
 	for (auto& [chunkPos, chunk] : mapLoader.getLoadedChunks()) {
 		if(!screenIsMoving)
@@ -43,7 +50,9 @@ void Scene::render(sf::RenderTarget& target)
 {
 	mapLoader.renderMap(target);
 	player.render(target);
+	playerHUD.render(target);
 
+	//view->setCenter(player.getPlayerPosition());
 	/*
 	leftScreenAABB.render(target);
 	rightScreenAABB.render(target);
@@ -64,9 +73,9 @@ void Scene::pullNewScreen(sf::Vector2f direction)
 	screenMoveFinish = screenMoveStart + screenDirection;
 	screenMoveProgress = 0.f;
 	screenIsMoving = true;
-	currentTargetChunk = currentMainChunk + sf::Vector2i({ (int)(direction.x * 15.f), (int)(direction.y * 10.f) });
-	//std::cout << "current chunk: " << currentMainChunk.x << ", " << currentMainChunk.y << std::endl;
-	//std::cout << "current target chunk: " << currentTargetChunk.x << ", " << currentTargetChunk.y << std::endl;
+	currentTargetChunk = currentMainChunk + sf::Vector2i({ (int)(direction.x * GameSettings::SCREEN_TILE_SIZE_W), (int)(direction.y * GameSettings::SCREEN_TILE_SIZE_H) });
+	std::cout << "current chunk: " << currentMainChunk.x << ", " << currentMainChunk.y << std::endl;
+	std::cout << "current target chunk: " << currentTargetChunk.x << ", " << currentTargetChunk.y << std::endl;
 	mapLoader.loadChunk(currentTargetChunk);
 }
 

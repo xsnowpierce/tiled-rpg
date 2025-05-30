@@ -158,6 +158,7 @@
     <ClCompile Include="LoadedMap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="MapTileCollisionData.h" />
     <ClInclude Include="MapUtils.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="Scene.h" />
@@ -188,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\images\character.png" />
+    <Image Include="resources\images\hearts.png" />
     <Image Include="resources\images\Overworld.png" />
   </ItemGroup>
   <ItemGroup>

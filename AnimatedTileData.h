@@ -6,6 +6,8 @@ class AnimationTileFrame {
 public:
 	int tileID;
 	float delayTime;
+
+	sf::Vector2f uvCoords[6];
 };
 
 class AnimatedTileData {
@@ -24,4 +26,6 @@ public:
 	long vertexIndex = -1;
 	float elapsedTime = 0.0f;
 	int currentFrame = 0;
+
+	const AnimatedTileData* animData = nullptr;
 };

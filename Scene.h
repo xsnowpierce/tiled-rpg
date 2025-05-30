@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "LevelMapLoader.h"
 #include "Player.h"
+#include "PlayerHUD.h"
 
 class Scene
 {
@@ -15,6 +16,8 @@ private:
 	sf::Texture playerTexture;
 	Player player;
 	sf::View* view;
+
+	PlayerHUD playerHUD;
 
 	sf::Vector2f screenMoveStart;
 	sf::Vector2f screenMoveFinish;

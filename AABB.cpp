@@ -53,47 +53,32 @@ sf::RectangleShape* AABB::getRectangleShape()
 
 bool AABB::checkCollision(AABB& other, float weight)
 {
-	sf::Vector2f otherPosition = other.getPosition();
-	sf::Vector2f otherHalfSize = other.getHalfSize();
-	
-	sf::Vector2f ourPosition = getPosition();
-	sf::Vector2f ourHalfSize = getHalfSize();
+	weight = std::clamp(weight, 0.0f, 1.0f);
+	float invWeight = 1.0f - weight;
 
-	float deltaX = otherPosition.x - ourPosition.x;
-	float deltaY = otherPosition.y - ourPosition.y;
+	const sf::Vector2f delta = other.getPosition() - getPosition();
+	const sf::Vector2f totalHalfSize = other.getHalfSize() + getHalfSize();
 
-	float intersectX = abs(deltaX) - (otherHalfSize.x + ourHalfSize.x);
-	float intersectY = abs(deltaY) - (otherHalfSize.y + ourHalfSize.y);
+	const float intersectX = std::abs(delta.x) - totalHalfSize.x;
+	const float intersectY = std::abs(delta.y) - totalHalfSize.y;
 
 	if (intersectX < 0.0f && intersectY < 0.0f) {
-		weight = std::clamp(weight, 0.0f, 1.0f);
-
-		if (abs(intersectX) < abs(intersectY)) {
-			if (deltaX > 0.0f) {
-				moveBox({ intersectX * (1.0f - weight), 0.0f });
-				other.moveBox({-intersectX * weight, 0.0f });
-			}
-			else {
-				moveBox({ -intersectX * (1.0f - weight), 0.0f });
-				other.moveBox({ intersectX * weight, 0.0f });
-			}
+		if (std::abs(intersectX) < std::abs(intersectY)) {
+			const float move = (delta.x > 0.0f) ? intersectX : -intersectX;
+			moveBox({ move * invWeight, 0.0f });
+			other.moveBox({ -move * weight, 0.0f });
 		}
 		else {
-			if (deltaY > 0.0f) {
-				moveBox({0.0f,  intersectY * (1.0f - weight)});
-				other.moveBox({0.0f, -intersectY * weight});
-			}
-			else {
-				moveBox({0.0f, -intersectY * (1.0f - weight)});
-				other.moveBox({0.0f, intersectY * weight});
-			}
+			const float move = (delta.y > 0.0f) ? intersectY : -intersectY;
+			moveBox({ 0.0f, move * invWeight });
+			other.moveBox({ 0.0f, -move * weight });
 		}
-
 		return true;
 	}
 
 	return false;
 }
+
 
 void AABB::setPosition(sf::Vector2f position)
 {

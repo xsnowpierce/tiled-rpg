@@ -60,6 +60,9 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -110,12 +113,18 @@
     <ClInclude Include="GameSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerHUD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\images\Overworld.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resources\images\character.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\images\hearts.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

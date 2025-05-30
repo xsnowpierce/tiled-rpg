@@ -4,8 +4,10 @@
 class MapTileCollisionData
 {
 public:
-	sf::Vector2f boxPosition;
-	sf::Vector2f boxSize;
+	bool collision_top_left = false;
+	bool collision_top_right = false;
+	bool collision_bottom_left = false;
+	bool collision_bottom_right = false;
 	bool is_null = true;
 };
 

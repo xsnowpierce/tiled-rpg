@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "LevelMapLoader.h"
+#include "AnimatedTileData.h"
 
 
 void LevelMapLoader::loadMap(const char* filepath)
@@ -78,6 +79,28 @@ void LevelMapLoader::loadChunk(sf::Vector2i chunkPosition)
         if (!chunkData) continue;
 
         LoadedMapLayer layer(i);
+
+        for (auto& [tileID, animData] : tileAnimationData) {
+            for (auto& frame : animData.frames) {
+                int frameTileID = frame.second.tileID + 1;
+                int tu = (frameTileID - 1) % 40;
+                int tv = (frameTileID - 1) / 40;
+
+                float u0 = float(tu * 16);
+                float v0 = float(tv * 16);
+                float u1 = float((tu + 1) * 16);
+                float v1 = float((tv + 1) * 16);
+
+                frame.second.uvCoords[0] = { u0, v0 };
+                frame.second.uvCoords[1] = { u1, v0 };
+                frame.second.uvCoords[2] = { u0, v1 };
+                frame.second.uvCoords[3] = { u0, v1 };
+                frame.second.uvCoords[4] = { u1, v0 };
+                frame.second.uvCoords[5] = { u1, v1 };
+            }
+        }
+
+
         layer.buildVertexArray(*chunkData, tilemap, { 16, 16 }, tileCollisionData, tileAnimationData);
 
         chunk.layers.insert({ i, std::move(layer) });
@@ -126,11 +149,11 @@ void LevelMapLoader::loadTileMaps()
 
         int tileID = tileNode.attribute("id").as_int() + 1;
 
-        pugi::xml_node objectNode = tileNode.child("objectgroup").child("object");
+        pugi::xml_node propertiesNode = tileNode.child("properties");
         pugi::xml_node animationNode = tileNode.child("animation");
 
-        if (objectNode) {
-            loadCollisionTile(tileID, objectNode);
+        if (propertiesNode) {
+            loadCollisionTile(tileID, propertiesNode);
         }
 
         if (animationNode) {
@@ -144,12 +167,26 @@ void LevelMapLoader::loadTileMaps()
 
 }
 
-void LevelMapLoader::loadCollisionTile(int tileID, pugi::xml_node objectNode)
+void LevelMapLoader::loadCollisionTile(int tileID, pugi::xml_node propertiesNode)
 {
     MapTileCollisionData collisionData;
 
-    collisionData.boxPosition = { objectNode.attribute("x").as_float(), objectNode.attribute("y").as_float() };
-    collisionData.boxSize = { objectNode.attribute("width").as_float(), objectNode.attribute("height").as_float() };
+    for (pugi::xml_node child : propertiesNode.children()) {
+        bool value = child.attribute("value").as_bool();
+        if (std::string(child.attribute("name").as_string()) == "collision_top_left") {
+            collisionData.collision_top_left = value;
+        }
+        else if (std::string(child.attribute("name").as_string()) == "collision_top_right") {
+            collisionData.collision_top_right = value;
+        }
+        else if (std::string(child.attribute("name").as_string()) == "collision_bottom_left") {
+            collisionData.collision_bottom_left = value;
+        }
+        else if (std::string(child.attribute("name").as_string()) == "collision_bottom_right") {
+            collisionData.collision_bottom_right = value;
+        }
+    }
+
     collisionData.is_null = false;
 
     tileCollisionData[tileID] = collisionData;
